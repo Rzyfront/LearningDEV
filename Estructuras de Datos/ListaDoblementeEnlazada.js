@@ -112,6 +112,18 @@ class DoubleLinkedList{
         return valorBorrado;
     }
 
+    postorder() {
+        if (!this.root) return [];
+        let result = [];
+        function traversePostOrder(node) {
+          if (node.left) traversePostOrder(node.left);
+          if (node.right) traversePostOrder(node.right);
+          result.push(node.value);
+        }
+        traversePostOrder(this.root);
+        return result;
+      }
+
     removeTail(){
         //Si esta vacia
         if (!this.tail) {
