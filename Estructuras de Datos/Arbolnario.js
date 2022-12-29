@@ -134,88 +134,129 @@ _preOrder(node, fn) {
 }
 
 
-    _postOrder(node, fn) {
-        if(node) {
-            for(let i = 0; i < node.children.length; i++) {
-                this._postOrder(node.children[i], fn);
-            }
-            if(fn) {
-                fn(node);
-            }
+// Este método recorre el árbol n-ario en orden post-order
+// es decir, primero procesa los hijos de un nodo, luego el nodo en sí.
+_postOrder(node, fn) {
+    // Si el nodo no es nulo, entonces continuamos con el procesamiento
+    if(node) {
+        // Recorremos todos los hijos del nodo actual
+        for(let i = 0; i < node.children.length; i++) {
+            // Aplicamos el método de forma recursiva a cada uno de los hijos
+            this._postOrder(node.children[i], fn);
         }
-    }
-
-    traverseDFS(fn, method) {
-        const current = this.root;
-        if(method) {
-            this[`_${method}`](current, fn);
-        } else {
-            this._preOrder(current, fn);
+        // Si se ha especificado una función, la aplicamos al nodo actual
+        if(fn) {
+            fn(node);
         }
-    }
-
-    traverseBFS(fn) {
-        const queue = [this.root];
-        while(queue.length) {
-            const node = queue.shift();
-            if(fn) {
-                fn(node);
-            }
-            for(let i = 0; i < node.children.length; i++) {
-                queue.push(node.children[i]);
-            }
-        }
-    }
-
-    print() {
-        if(!this.root) {
-            return console.log('No root node found');
-        }
-        const newline = new Node('|');
-        const queue = [this.root, newline];
-        let string = '';
-        while(queue.length) {
-            const node = queue.shift();
-            string += node.data.toString() + ' ';
-            if(node === newline && queue.length) {
-                queue.push(newline);
-            }
-            for(let i = 0; i < node.children.length; i++) {
-                queue.push(node.children[i]);
-            }
-        }
-        console.log(string.slice(0, -2).trim());
-    }
-
-    printByLevel() {
-        if(!this.root) {
-            return console.log('No root node found');
-        }
-        const newline = new Node('\n');
-        const queue = [this.root, newline];
-        let string = '';
-        while(queue.length) {
-            const node = queue.shift();
-            string += node.data.toString() + (node.data !== '\n' ? ' ' : '');
-            if(node === newline && queue.length) {
-                queue.push(newline);
-            }
-            for(let i = 0; i < node.children.length; i++) {
-                queue.push(node.children[i]);
-            }
-        }
-        console.log(string.trim());
     }
 }
 
+// Este método recorre el árbol n-ario utilizando una búsqueda en profundidad (DFS)
+traverseDFS(fn, method) {
+    // Obtenemos la raíz del árbol
+    const current = this.root;
+    // Si se ha especificado un método de recorrido, lo utilizamos
+    if(method) {
+        // Ejecutamos el método de recorrido especificado de forma recursiva a partir de la raíz
+        this[`_${method}`](current, fn);
+    } 
+    // Si no se ha especificado un método de recorrido, utilizamos el recorrido en pre-order por defecto
+    else {
+        this._preOrder(current, fn);
+    }
+  }
+  
+  // Este método recorre el árbol n-ario utilizando una búsqueda en anchura (BFS)
+traverseBFS(fn) {
+    // Creamos una cola con la raíz del árbol
+    const queue = [this.root];
+    // Mientras la cola no esté vacía, procesamos los nodos
+    while(queue.length) {
+      // Sacamos el primer elemento de la cola
+      const node = queue.shift();
+      // Si se ha especificado una función, la aplicamos al nodo
+      if(fn) {
+          fn(node);
+      }
+      // Añadimos todos los hijos del nodo a la cola
+      for(let i = 0; i < node.children.length; i++) {
+          queue.push(node.children[i]);
+      }
+    }
+  }
+  
+  // Este método imprime el árbol n-ario en consola utilizando una búsqueda en anchura (BFS)
+print() {
+    // Si no hay raíz, no podemos imprimir el árbol
+    if(!this.root) {
+        return console.log('No root node found');
+    }
+    // Creamos un nodo auxiliar para marcar el final de un nivel del árbol
+    const newline = new Node('|');
+    // Creamos una cola con la raíz del árbol y el nodo auxiliar
+    const queue = [this.root, newline];
+    // Inicializamos una cadena vacía para ir concatenando los datos de los nodos
+    let string = '';
+    // Mientras la cola no esté vacía, procesamos los nodos
+    while(queue.length) {
+      // Sacamos el primer elemento de la cola
+      const node = queue.shift();
+      // Añadimos el dato del nodo a la cadena
+      string += node.data.toString() + ' ';
+      // Si el nodo es el nodo auxiliar y la cola no está vacía, añadimos otro nodo auxiliar a la cola
+      if(node === newline && queue.length) {
+          queue.push(newline);
+      }
+      // Añadimos todos los hijos del nodo a la cola
+      for(let i = 0; i < node.children.length; i++) {
+          queue.push(node.children[i]);
+      }
+    }
+    // Imprimimos la cadena resultante, eliminando el último espacio y eliminando los espacios en blanco al principio y al final
+    console.log(string.slice(0, -2).trim());
+  }
+  
+
+// Este método imprime el árbol n-ario en consola por niveles, utilizando una búsqueda en anchura (BFS)
+printByLevel() {
+    // Si no hay raíz, no podemos imprimir el árbol
+    if(!this.root) {
+        return console.log('No root node found');
+    }
+    // Creamos un nodo auxiliar para marcar el final de un nivel del árbol
+    const newline = new Node('\n');
+    // Creamos una cola con la raíz del árbol y el nodo auxiliar
+    const queue = [this.root, newline];
+    // Inicializamos una cadena vacía para ir concatenando los datos de los nodos
+    let string = '';
+    // Mientras la cola no esté vacía, procesamos los nodos
+    while(queue.length) {
+      // Sacamos el primer elemento de la cola
+      const node = queue.shift();
+      // Añadimos el dato del nodo a la cadena
+      string += node.data.toString() + (node.data !== '\n' ? ' ' : '');
+      // Si el nodo es el nodo auxiliar y la cola no está vacía, añadimos otro nodo auxiliar a la cola
+      if(node === newline && queue.length) {
+          queue.push(newline);
+      }
+      // Añadimos todos los hijos del nodo a la cola
+      for(let i = 0; i < node.children.length; i++) {
+          queue.push(node.children[i]);
+      }
+    }
+    // Imprimimos la cadena resultante, eliminando los espacios en blanco al principio y al final
+    console.log(string.trim());
+  }
+} 
 
 const prueva = new Tree();
 
 
-prueva.add(1,0);
+prueva.add(1);
 console.log(prueva);
 prueva.add(2,1);
-prueva.add(3,2);
+prueva.add(3,1);
 console.log(prueva);
-prueva.add(4,0);
+prueva.add(4,3);
 console.log(prueva);
+prueva.add(7,3);
