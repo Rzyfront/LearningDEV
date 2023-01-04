@@ -79,6 +79,20 @@ Arrayfragment.forEach(Obj=>{
     const lifrag= document.createElement("li");
     lifrag.textContent= Obj;
     Fragment.appendChild(lifrag);
-})
+});
 
 listafragmentada.appendChild(Fragment);
+
+
+const listatemplate= document.querySelector("#templist");
+const Arraytemplate= ["Template 1","Template 2","Template 3"];
+const templateli= document.querySelector("#templateli").content
+const fragmenttemp= document.createDocumentFragment();
+
+Arraytemplate.forEach(item=>{
+     templateli.querySelector(".list .juja").textContent=item;
+     const clone= templateli.cloneNode(true);
+     fragmenttemp.appendChild(clone);
+});
+
+  listatemplate.appendChild(fragmenttemp);
