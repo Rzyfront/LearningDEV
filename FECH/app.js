@@ -18,3 +18,23 @@ fetch("https://pokeapi.co/api/v2/pokemon/")
 // si las promesas fallan catch da el error que tenga por defecto la api
 .catch((err) => console.log(err));
 
+
+// Async Await
+const container2 = document.querySelector(".container2");
+
+const obtenerPokemones = async()=>{
+    try {
+        const res = await fetch("https://pokeapi.co/api/v2/pokemon/");
+        const data = await res.json();
+        data.results.forEach(element=>{
+        const h2 = document.createElement("h2");
+        h2.textContent=element.name;
+        container2.appendChild(h2);
+        })
+    } catch (error) {
+        console.log("!!!"+ error);
+    }
+
+}
+obtenerPokemones();
+
